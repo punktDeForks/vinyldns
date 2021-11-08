@@ -25,3 +25,17 @@ reStart
 project portal
 preparePortal; run
 ```
+
+## Build
+
+Use credentials with read_registry/write_registry scope.
+
+```
+docker login docker-registry.punkt.de/docker/vinyldns
+```
+
+Push to `pt` branch first!
+
+```
+./build/docker-release.sh --clean --branch pt --latest --push --repository docker-registry.punkt.de/docker/vinyldns
+```

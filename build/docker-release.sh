@@ -67,7 +67,7 @@ BASEDIR=$CURDIR/../
 rm -rf $CURDIR/target && mkdir -p $CURDIR/target
 
 # Download just the version.sbt file from the branch specified, we use this to calculate the version
-wget "https://raw.githubusercontent.com/vinyldns/vinyldns/${BRANCH}/version.sbt" -P "${CURDIR}/target"
+wget "https://raw.githubusercontent.com/punktDeForks/vinyldns/${BRANCH}/version.sbt" -P "${CURDIR}/target"
 
 if [ -z "$V" ]; then
   # Calculate the version by using version.sbt, this will pull out something like 0.9.4
@@ -101,10 +101,10 @@ if [ $DO_BUILD -eq 1 ]; then
     --build-arg VINYLDNS_VERSION="${VINYLDNS_VERSION}" \
     --build-arg BRANCH="${BRANCH}"
 
-  if [ $? -eq 0 ]; then
-    # Runs smoke tests to make sure the new images are sound
-    docker-compose -f $CURDIR/docker/docker-compose.yml --log-level ERROR up --exit-code-from functest
-  fi
+  #if [ $? -eq 0 ]; then
+  #  # Runs smoke tests to make sure the new images are sound
+  #  docker-compose -f $CURDIR/docker/docker-compose.yml --log-level ERROR up --exit-code-from functest
+  #fi
 
   if [ $? -eq 0 ]; then
     docker tag vinyldns/test-bind9:$VINYLDNS_VERSION $REPOSITORY/vinyldns/test-bind9:$VINYLDNS_VERSION
