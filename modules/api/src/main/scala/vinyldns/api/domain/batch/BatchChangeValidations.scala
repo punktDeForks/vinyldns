@@ -298,12 +298,6 @@ class BatchChangeValidations(
         validateDeleteUpdateWithContext(deleteUpdate, groupedChanges, auth, isApproved)
     }
 
-  def newRecordSetIsNotDotted(change: AddChangeForValidation): SingleValidation[Unit] =
-    if (change.recordName != change.zone.name && change.recordName.contains("."))
-      ZoneDiscoveryError(change.inputChange.inputName).invalidNel
-    else
-      ().validNel
-
   def matchRecordData(existingRecordSetData: List[RecordData], recordData: RecordData): Boolean =
     existingRecordSetData.exists { rd =>
       (rd, recordData) match {
@@ -415,12 +409,9 @@ class BatchChangeValidations(
       ownerGroupId: Option[String]
   ): SingleValidation[ChangeForValidation] = {
     val typedValidations = change.inputChange.typ match {
-      case A | AAAA | MX =>
-        newRecordSetIsNotDotted(change)
       case CNAME =>
-        cnameHasUniqueNameInBatch(change, groupedChanges) |+|
-          newRecordSetIsNotDotted(change)
-      case TXT | PTR =>
+        cnameHasUniqueNameInBatch(change, groupedChanges)
+      case A | AAAA | MX | TXT | PTR =>
         ().validNel
       case other =>
         InvalidBatchRecordType(other.toString, SupportedBatchChangeRecordTypes.get).invalidNel

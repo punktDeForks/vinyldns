@@ -121,7 +121,7 @@
             <tbody>
                 <tr ng-repeat="(recordName, record) in records track by $index">
                     <td>
-                        <div ng-if="record.isDotted && record.type != 'TXT' && record.type != 'SRV' && record.type != 'NAPTR'" class="text-danger wrap-long-text" data-toggle="tooltip" data-placement="top"
+                        <div ng-if="record.isDotted && record.type != 'A' && record.type != 'AAAA' && record.type != 'MX' && record.type != 'CNAME' && record.type != 'TXT' && record.type != 'SRV' && record.type != 'NAPTR'" class="text-danger wrap-long-text" data-toggle="tooltip" data-placement="top"
                         title="Dotted hosts are invalid! Please delete or update without a '.'">
                             {{record.name}} <span class="fa fa-warning" />
                         </div>

@@ -117,7 +117,8 @@ object RecordSetValidations {
       case NS => nsValidations(newRecordSet, zone, existingRecordSet, approvedNameServers)
       case SOA => soaValidations(newRecordSet, zone)
       case PTR => ptrValidations(newRecordSet, zone)
-      case SRV | TXT | NAPTR => ().asRight // SRV, TXT and NAPTR do not go through dotted host check
+      case A | AAAA | MX | SRV | TXT | NAPTR =>
+        ().asRight // SRV, TXT and NAPTR do not go through dotted host check
       case DS => dsValidations(newRecordSet, existingRecordsWithName, zone)
       case _ => isNotDotted(newRecordSet, zone, existingRecordSet)
     }
@@ -154,6 +155,10 @@ object RecordSetValidations {
       )
     }
 
+    // Make Scala ignore unused parameter.
+    // Use @annotation.unused after upgrading to Scala >= 2.13.
+    val _ = existingRecordSet
+
     for {
       _ <- isNotOrigin(
         newRecordSet,
@@ -161,7 +166,7 @@ object RecordSetValidations {
         "CNAME RecordSet cannot have name '@' because it points to zone origin"
       )
       _ <- noRecordWithName
-      _ <- isNotDotted(newRecordSet, zone, existingRecordSet)
+      //_ <- isNotDotted(newRecordSet, zone, existingRecordSet)
     } yield ()
 
   }
