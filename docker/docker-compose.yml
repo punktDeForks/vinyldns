@@ -1,14 +1,14 @@
 version: "3.0"
 services:
   mysql:
-    image: mysql:5.7<skipPull>
+    image: mysql:5.7
     env_file:
       .env
     ports:
       - "19002:3306"
 
   bind9:
-    image: vinyldns/bind9:0.0.4<skipPull>
+    image: vinyldns/bind9:0.0.4
     env_file:
       .env
     ports:
@@ -19,7 +19,7 @@ services:
       - ./bind9/zones:/var/cache/bind/zones
 
   localstack:
-    image: localstack/localstack:0.10.4<skipPull>
+    image: localstack/localstack:0.10.4
     ports:
       - "19006:19006"
       - "19007:19007"
@@ -29,13 +29,13 @@ services:
       - START_WEB=0
 
   mail:
-    image: flaviovs/mock-smtp:0.0.2<skipPull>
+    image: flaviovs/mock-smtp:0.0.2
     ports:
       - "19025:25"
     volumes:
       - ./email:/var/lib/mock-smtp
 
   ldap:
-    image: rroemhild/test-openldap:latest<skipPull>
+    image: rroemhild/test-openldap:latest
     ports:
-      - "19008:389"
+      - "19008:10389"

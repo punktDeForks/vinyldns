@@ -46,7 +46,7 @@ services:
     image: rroemhild/test-openldap
     container_name: "vinyldns-ldap"
     ports:
-      - "19008:389"
+      - "19008:10389"
 
   portal:
     build:
